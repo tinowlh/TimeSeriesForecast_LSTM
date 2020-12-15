@@ -177,8 +177,8 @@ n_batch = 32
 n_neurons = 8
 n_features = df.shape[1]
 n_obs = n_lag * df.shape[1]
-n_run = 1
 
-
-forecasts = forecast_prod(df, n_lag, n_seq, n_batch, model_load, scaler_load)
-print(f'0050.TW {df.index[-1].date()} price: {df.iloc[-1,0]} \nNext day price forcasting: {round(forecasts[0][0],2)}')
+if __name__ == '__main__':
+    
+    forecasts = forecast_prod(df, n_lag, n_seq, n_batch, model_load, scaler_load)
+    print(f'0050.TW {df.index[-1].date()} price: {df.iloc[-1,0]} \nNext day price forcasting: {round(forecasts[0][0],2)}')
