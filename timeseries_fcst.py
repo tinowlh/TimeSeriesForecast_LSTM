@@ -21,6 +21,7 @@ from keras.models import Sequential
 from keras.layers import LSTM, Dense #, GRU
 from keras.models import load_model
 from keras.optimizers import Adam #, RMSprop
+#from keras.regularizers import l2, l1_l2, l1
 #from keras.callbacks import EarlyStopping
 
 
@@ -139,12 +140,12 @@ def fit_lstm(train_X, train_y, test_X, test_y, n_lag, n_seq, n_batch, nb_epoch, 
                    input_shape=(train_X.shape[1], train_X.shape[2]), 
                    return_sequences=True
                    ))
-    model.add(LSTM(n_neurons, 
-                   dropout = 0.5,
+#    model.add(LSTM(n_neurons, 
+#                   dropout = 0.5,
 #                   recurrent_dropout = 0.3,
 #                   kernel_regularizer=l1(0.0000001), #l1_l2(0.0000001, 0.0000001), #l2(0.0000001),
 #                   recurrent_regularizer= l1(0.0000001), #l1_l2(0.0000001, 0.0000001), #l2(0.0000001),
-                   return_sequences=True))
+#                   return_sequences=True))
     model.add(LSTM(n_neurons, 
                    dropout = 0.5,
 #                   recurrent_dropout = 0.3,
@@ -281,7 +282,7 @@ def plot_forecasts(series, forecasts, n_test):
 
     
 
-# for visualization
+# for visualization information
 def show_avg_diff_bw_fcst_actual(forecasts_avg, actual_inver):
 
     # evaluate: Avg Difference b/w last {n_test} value Forecast and Actual
@@ -334,7 +335,7 @@ df = df_raw.copy()
 n_lag = 10 # input
 n_seq = 1 # output
 n_test = 10
-n_epochs = 10
+n_epochs = 20
 n_batch = 32
 n_neurons = 8
 n_features = df.shape[1]
@@ -377,8 +378,8 @@ actual_inver = inverse_transform(df, actual, scaler, n_test + (n_seq-1))
 # evaluate forecasts 
 evaluate_forecasts(actual_inver, forecasts_avg, n_lag, n_seq)
 
-# plot actual/forecast
-plot_forecasts(df.iloc[:,0], forecasts_avg, n_test + (n_seq-1))
+# plot actual/forecast in the last 30 days
+plot_forecasts(df.iloc[-30:,0], forecasts_avg, n_test + (n_seq-1))
 
 
 ## plot line chart comparing fcst/actual
@@ -405,7 +406,10 @@ show_avg_diff_bw_fcst_actual(forecasts_avg, actual_inver)
 # Save model: creates a HDF5 file
 #model.save('./model/LSTM_20201214.h5')
 
-## from keras.models import load_model
+
+### LOAD MODEL ###
+
+## reload model
 #model = load_model('./API/data/LSTM_Z390_UA1_20200720.h5')
 #
 ## reload scaler
