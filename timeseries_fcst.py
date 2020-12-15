@@ -284,7 +284,7 @@ def plot_forecasts(series, forecasts, n_test):
 # for visualization
 def show_avg_diff_bw_fcst_actual(forecasts_avg, actual_inver):
 
-    # evaluate: Avg Difference b/w last 7 value Forecast and Actual
+    # evaluate: Avg Difference b/w last {n_test} value Forecast and Actual
     forecasts_sum = 0
     for i in range(len(forecasts_avg)): 
         forecasts_sum += forecasts_avg[i][-1]
@@ -301,7 +301,7 @@ def show_avg_diff_bw_fcst_actual(forecasts_avg, actual_inver):
 # for visualization
 def get_df_for_linechart_fcst_actual(actual_inver, n_test, n_seq):
 
-    # get actual/T+3 fcst 
+    # get actual T+{n_seq} fcst 
     l = []
     l_fo =[]
     for i in range(len(actual_inver)):
@@ -310,7 +310,7 @@ def get_df_for_linechart_fcst_actual(actual_inver, n_test, n_seq):
         l.append(actual)
         l_fo.append(fcst)
 
-    # get weeks for x-axis
+    # get days for x-axis
     l_day = []
     for i in range(n_test):
         day = 'D{i}'.format(i=i+1)
@@ -324,22 +324,22 @@ def get_df_for_linechart_fcst_actual(actual_inver, n_test, n_seq):
 
     return df_acfo4plot
 
-    
-#######START#########
+
+### START ###
 
 df = df_raw.copy()
 
 
 # model config
-n_lag = 10 #input
-n_seq = 1 #output
+n_lag = 10 # input
+n_seq = 1 # output
 n_test = 10
 n_epochs = 10
 n_batch = 32
 n_neurons = 8
 n_features = df.shape[1]
 n_obs = n_lag * df.shape[1]
-n_runs = 1
+n_runs = 1  # set n_runs > 1 if random seed not used at first  
 
 
 
@@ -350,7 +350,7 @@ for i in range(n_runs):
     # prepare data
     scaler, train, test = prepare_data(df, n_test, n_lag, n_seq)
     
-    #split into input(x) output(y)
+    # split into input(x) output(y)
     train_X, train_y, test_X, test_y = split_into_input_output(train, test, n_seq)
     
     # fit model
@@ -378,7 +378,7 @@ actual_inver = inverse_transform(df, actual, scaler, n_test + (n_seq-1))
 evaluate_forecasts(actual_inver, forecasts_avg, n_lag, n_seq)
 
 # plot actual/forecast
-#plot_forecasts(df.iloc[:,0], forecasts_avg, n_test + (n_seq-1))
+plot_forecasts(df.iloc[:,0], forecasts_avg, n_test + (n_seq-1))
 
 
 ## plot line chart comparing fcst/actual
@@ -394,6 +394,8 @@ show_avg_diff_bw_fcst_actual(forecasts_avg, actual_inver)
 
 
 
+
+### SAVE MODEL ###
 
 # Save scaler 
 #file_scaler = open('./model/scaler_20201214.pickle', 'wb')
