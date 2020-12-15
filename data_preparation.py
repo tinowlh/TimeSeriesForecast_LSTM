@@ -47,6 +47,7 @@ df_raw = add_moving_features(df_raw)
 
 df_raw = df_raw.reset_index()
 df_raw['Weekday'] = df_raw['Date'].dt.weekday
+df_raw['Month'] = df_raw['Date'].dt.month
 df_raw['Weeknum'] = df_raw['Date'].dt.isocalendar().week
 df_raw['Quarter'] = df_raw['Date'].dt.quarter
 df_raw = df_raw.set_index('Date')
@@ -54,80 +55,8 @@ df_raw = df_raw.set_index('Date')
 
 
 
-
 #df_raw.info()
 #des = df.describe()
-
-
-
-
-#### open data: ForeEX Rate
-#def get_forex_rate(currency_cross, from_date, to_date, interval='Weekly'):
-#
-#    df = investpy.get_currency_cross_historical_data(currency_cross= currency_cross,
-#                                        from_date= from_date,
-#                                        to_date= to_date,
-#                                        interval= interval)
-#    df = df[['Close']]
-#    df = df.rename(columns = {'Close':'{exrate}'.format(exrate=currency_cross)})
-#    df.index = pd.to_datetime(df.index)
-#    df.index = df.index.strftime("%Y") + df.index.strftime("%V")
-#    df = df.groupby(df.index).mean()
-#
-#    return df
-#
-#
-
-
-### EDA: Correlation Matrix ###
-#df4CM = pd.merge(df, OECDE_data, left_index=True, right_index=True, how = 'left')
-#corrmat = df4CM.corr() 
-#covar = df4CM.cov()
-#cg = sns.clustermap(corrmat, cmap ="YlGnBu", linewidths = 0.1); 
-#plt.setp(cg.ax_heatmap.yaxis.get_majorticklabels(), rotation = 0) 
-#plt.savefig('Z390 Sellin in Europe Correlation Matrix.png', dpi=200)
-#cg 
-
-
-### Tree-based model for selecting inputs ###
-#from sklearn.ensemble import RandomForestRegressor
-#from sklearn.preprocessing import StandardScaler
-#from sklearn.model_selection import train_test_split
-
-#
-#X = df.iloc[:,1:]
-#y = df.iloc[:,0]
-#
-#scaler = StandardScaler()
-#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=100)
-#scaler.fit(X_train)
-#X_train_transformed = scaler.transform(X_train)
-#X_test_transformed = scaler.transform(X_test)
-#
-#
-#rf = RandomForestRegressor(n_estimators = 400, max_depth = 8) #, max_features = 10
-#rf.fit(X_train_transformed, y_train)
-#
-#
-#y_pred = rf.predict(X_test)
-#
-#
-## Evaluation
-#rmse = sqrt(mean_squared_error(y_test, y_pred))
-#
-#
-## Get numerical feature importances
-#importances = rf.feature_importances_.tolist()
-#
-## List of tuples with variable and importance
-#features = X.columns.tolist()
-#
-#df_FI = pd.DataFrame(list(zip(features, importances)), 
-#               columns =['features', 'importances']) 
-#
-#
-#df_FI = df_FI.sort_values(by='importances', ascending=False)
-
 
 
 
