@@ -158,12 +158,12 @@ def fit_lstm(train_X, train_y, test_X, test_y, n_lag, n_seq, n_batch, nb_epoch, 
     history = model.fit(train_X, train_y, epochs=nb_epoch, batch_size=n_batch, validation_data=(test_X, test_y), verbose=2, shuffle=False)
       
     # plot history for loss
-    plt.plot(history.history['loss']) 
-    plt.plot(history.history['val_loss']) 
+    plt.plot(history.history['loss'], label='train') 
+    plt.plot(history.history['val_loss'], label='test') 
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left') 
+    plt.legend(loc='upper left') 
     plt.show()
 
     return model
