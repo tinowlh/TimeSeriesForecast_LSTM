@@ -10,20 +10,13 @@ from data_preparation import df_raw
 import pandas as pd 
 import pickle
 
-
 # model building
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.experimental import enable_iterative_imputer
-from sklearn.impute import IterativeImputer
-
 from keras.models import Sequential
 from keras.layers import LSTM, Dense #, GRU
-from keras.models import load_model
 from keras.optimizers import Adam #, RMSprop
-#from keras.regularizers import l2, l1_l2, l1
-#from keras.callbacks import EarlyStopping
-
+from keras.regularizers import l2, #l1_l2, l1
 
 # model evaluation
 import numpy as np
@@ -135,25 +128,19 @@ def fit_lstm(train_X, train_y, test_X, test_y, n_lag, n_seq, n_batch, nb_epoch, 
     model.add(LSTM(n_neurons, 
                    dropout = 0.5,
 #                   recurrent_dropout = 0.3,
-#                   kernel_regularizer=l1(0.0000001), #l1_l2(0.0000001, 0.0000001), #l2(0.0000001),
+                   kernel_regularizer=l2(0.000001), #l1_l2(0.0000001, 0.0000001), #l2(0.0000001),
 #                   recurrent_regularizer= l1(0.0000001), #l1_l2(0.0000001, 0.0000001), #l2(0.0000001),
                    input_shape=(train_X.shape[1], train_X.shape[2]), 
                    return_sequences=True
                    ))
-#    model.add(LSTM(n_neurons, 
-#                   dropout = 0.5,
-#                   recurrent_dropout = 0.3,
-#                   kernel_regularizer=l1(0.0000001), #l1_l2(0.0000001, 0.0000001), #l2(0.0000001),
-#                   recurrent_regularizer= l1(0.0000001), #l1_l2(0.0000001, 0.0000001), #l2(0.0000001),
-#                   return_sequences=True))
     model.add(LSTM(n_neurons, 
                    dropout = 0.5,
 #                   recurrent_dropout = 0.3,
-#                   kernel_regularizer=l1(0.0000001), #l1_l2(0.0000001, 0.0000001), 
+                   kernel_regularizer=l2(0.000001), #l1_l2(0.0000001, 0.0000001), 
 #                   recurrent_regularizer=l1(0.0000001) #l1_l2(0.0000001, 0.0000001),
                    ))
     model.add(Dense(n_seq)) #, activation='tanh'  bias_constraint = NonNeg()
-    model.compile(loss='mae', optimizer= Adam()) #default 0.001 learning_rate=0.008
+    model.compile(loss='mse', optimizer= Adam()) #default 0.001 learning_rate=0.008
 
 	# fit network
     history = model.fit(train_X, train_y, epochs=nb_epoch, batch_size=n_batch, validation_data=(test_X, test_y), verbose=2, shuffle=False)
@@ -399,21 +386,14 @@ show_avg_diff_bw_fcst_actual(forecasts_avg, actual_inver)
 ### SAVE MODEL ###
 
 # Save scaler 
-#file_scaler = open('./model/scaler_20201214.pickle', 'wb')
-#pickle.dump(scaler, file_scaler)
-#file_scaler.close()
+file_scaler = open('./model/scaler_v1.0.pickle', 'wb')
+pickle.dump(scaler, file_scaler)
+file_scaler.close()
 
 # Save model: creates a HDF5 file
-#model.save('./model/LSTM_20201214.h5')
+model.save('./model/LSTM_v1.0.h5')
 
 
-### LOAD MODEL ###
-
-## reload model
-#model = load_model('./API/data/LSTM_Z390_UA1_20200720.h5')
-#
-## reload scaler
-#scaler = pickle.load(open('./API/data/LSTM_scaler_Z390_UA1_20200720.pickle', 'rb'))
 
     
 
