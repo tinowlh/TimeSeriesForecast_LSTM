@@ -1,4 +1,5 @@
 from data_preparation import df_raw
+import config as cfg
 
 import pandas as pd 
 import pickle
@@ -169,12 +170,12 @@ model_load = load_model('./model/LSTM_v1.0.h5')
 df = df_raw.copy()
 
 # model config
-n_lag = 10 # input
-n_seq = 1 # output
-n_test = 10
-n_epochs = 20
-n_batch = 32
-n_neurons = 8
+n_lag = cfg.n_lag
+n_seq = cfg.n_seq
+n_test = cfg.n_test
+n_epochs = cfg.n_epochs
+n_batch = cfg.n_batch
+n_neurons = cfg.n_neurons
 n_features = df.shape[1]
 n_obs = n_lag * df.shape[1]
 

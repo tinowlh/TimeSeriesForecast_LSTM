@@ -4,6 +4,8 @@ seed(1000)
 import tensorflow as tf
 tf.random.set_seed(1000)
 
+# configuration
+import config as cfg
 
 # data
 from data_preparation import df_raw
@@ -319,15 +321,15 @@ df = df_raw.copy()
 
 
 # model config
-n_lag = 10 # input
-n_seq = 1 # output
-n_test = 10
-n_epochs = 20
-n_batch = 32
-n_neurons = 8
+n_lag = cfg.n_lag
+n_seq = cfg.n_seq
+n_test = cfg.n_test
+n_epochs = cfg.n_epochs
+n_batch = cfg.n_batch
+n_neurons = cfg.n_neurons
 n_features = df.shape[1]
 n_obs = n_lag * df.shape[1]
-n_runs = 1  # set n_runs > 1 if random seed not used at first  
+n_runs = cfg.n_runs  # set n_runs > 1 if random seed not used at first  
 
 
 
@@ -391,8 +393,11 @@ pickle.dump(scaler, file_scaler)
 file_scaler.close()
 
 # Save model: creates a HDF5 file
-model.save('./model/LSTM_v1.0.h5')
+model_name = 'LSTM_v1.0'
+model.save(f'./model/{model_name}.h5')
 
+
+print(f'------Model Saved ({model_name})------')
 
 
     
