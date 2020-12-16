@@ -139,9 +139,10 @@ dmypy.json
 cython_debug/
 
 # vs code
-.vscode/
+.vscode/settings.json
 
 # data
 data/
 archive/
 model/
+
