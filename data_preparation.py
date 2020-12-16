@@ -40,7 +40,7 @@ def add_moving_features(df_raw):
     
     
 
-df_stockP_raw = get_stockP_raw(['0050.TW','VOO'], start = dt(2018, 12, 30), end = dt(2020, 12, 15))
+df_stockP_raw = get_stockP_raw(['0050.TW','VOO'], start = dt(2018, 12, 30), end = dt(2020, 12, 14))
 df_raw = df_stockP_raw.fillna(method='ffill')
 df_raw = add_moving_features(df_raw)
 
