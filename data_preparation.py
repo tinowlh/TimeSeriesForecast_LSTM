@@ -40,7 +40,7 @@ def add_moving_features(df_raw):
     
     
 
-df_stockP_raw = get_stockP_raw(['0050.TW','VOO'], start = dt(2018, 12, 30), end = dt(2020, 12, 14))
+df_stockP_raw = get_stockP_raw(['0050.TW','VOO'], start = dt(2018, 12, 30), end = dt(2020, 12, 15))
 df_raw = df_stockP_raw.fillna(method='ffill')
 df_raw = add_moving_features(df_raw)
 
@@ -48,7 +48,7 @@ df_raw = add_moving_features(df_raw)
 df_raw = df_raw.reset_index()
 df_raw['Weekday'] = df_raw['Date'].dt.weekday
 df_raw['Month'] = df_raw['Date'].dt.month
-df_raw['Weeknum'] = df_raw['Date'].dt.isocalendar().week
+df_raw['Weeknum'] = df_raw['Date'].dt.week
 df_raw['Quarter'] = df_raw['Date'].dt.quarter
 df_raw = df_raw.set_index('Date')
 
