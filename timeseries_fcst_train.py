@@ -16,7 +16,7 @@ from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import LSTM, Dense #, GRU
 from keras.optimizers import Adam #, RMSprop
-from keras.regularizers import l2, #l1_l2, l1
+from keras.regularizers import l2 #, l1_l2, l1
 
 # model evaluation
 import numpy as np
