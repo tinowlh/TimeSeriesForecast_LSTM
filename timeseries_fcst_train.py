@@ -388,16 +388,15 @@ show_avg_diff_bw_fcst_actual(forecasts_avg, actual_inver)
 ### SAVE MODEL ###
 
 # Save scaler 
-file_scaler = open('./model/scaler_v1.0.pickle', 'wb')
+file_scaler = open(f'./model/{cfg.scaler_name}.pickle', 'wb')
 pickle.dump(scaler, file_scaler)
 file_scaler.close()
 
 # Save model: creates a HDF5 file
-model_name = 'LSTM_v1.0'
-model.save(f'./model/{model_name}.h5')
+model.save(f'./model/{cfg.model_name}.h5')
 
 
-print(f'------Model Saved ({model_name})------')
+print(f'------Model Saved ({cfg.model_name})------')
 
 
     

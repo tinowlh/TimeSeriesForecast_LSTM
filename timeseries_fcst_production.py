@@ -164,8 +164,8 @@ def forecast_prod(df, n_lag, n_seq, n_batch, model_load, scaler_load):
 ### START ###
     
 ### Initialize saved files ###
-scaler_load = pickle.load(open('./model/scaler_v1.0.pickle', 'rb'))
-model_load = load_model('./model/LSTM_v1.0.h5')   
+scaler_load = pickle.load(open(f'./model/{cfg.scaler_name}.pickle', 'rb'))
+model_load = load_model(f'./model/{cfg.model_name}.h5')   
 
 df = df_raw.copy()
 
