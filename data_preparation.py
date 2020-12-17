@@ -5,6 +5,7 @@ from pandas_datareader import data as web
 from datetime import datetime as dt
 import functools
 
+import config as cfg
 
 
 def get_stockP_raw(l_of_stocks, start = dt(2020, 1, 1), end = dt.now()):
@@ -40,18 +41,22 @@ def add_moving_features(df_raw):
     
     
 
-df_stockP_raw = get_stockP_raw(['0050.TW','VOO'], start = dt(2018, 12, 30), end = dt(2020, 12, 14))
+df_stockP_raw = get_stockP_raw(['0050.TW','VOO'],\
+                               start = dt(cfg.stockp_start_yr, cfg.stockp_start_mn, cfg.stockp_start_d),\
+                               end = dt(cfg.stockp_end_yr, cfg.stockp_end_mn, cfg.stockp_end_d))
 df_raw = df_stockP_raw.fillna(method='ffill')
 df_raw = add_moving_features(df_raw)
 
 
 df_raw = df_raw.reset_index()
-df_raw['Weekday'] = df_raw['Date'].dt.weekday
-df_raw['Month'] = df_raw['Date'].dt.month
-df_raw['Weeknum'] = df_raw['Date'].dt.week
-df_raw['Quarter'] = df_raw['Date'].dt.quarter
+df_raw['Weekday'] = df_raw['Date'].dt.weekday.astype('category')
+df_raw['Month'] = df_raw['Date'].dt.month.astype('category')
+df_raw['Weeknum'] = df_raw['Date'].dt.isocalendar().week.astype('category')
+df_raw['Quarter'] = df_raw['Date'].dt.quarter.astype('category')
 df_raw = df_raw.set_index('Date')
 
+# one-hot encoding 
+df_raw = pd.get_dummies(df_raw)
 
 
 
