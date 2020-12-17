@@ -102,7 +102,7 @@ spyder==3.3.6
 spyder-kernels==0.5.2
 tensorboard==2.3.0
 tensorboard-plugin-wit==1.7.0
-tensorflow==2.3.0
+tensorflow>=2.4.0
 tensorflow-estimator==2.3.0
 termcolor==1.1.0
 testpath==0.4.4
